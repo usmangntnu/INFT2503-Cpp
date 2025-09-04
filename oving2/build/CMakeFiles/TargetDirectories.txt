@@ -1,0 +1,4 @@
+/home/virtualmachine/c++_oving/INFT2503-Cpp/oving2/build/CMakeFiles/oppgave1a.dir
+/home/virtualmachine/c++_oving/INFT2503-Cpp/oving2/build/CMakeFiles/oppgave1b.dir
+/home/virtualmachine/c++_oving/INFT2503-Cpp/oving2/build/CMakeFiles/edit_cache.dir
+/home/virtualmachine/c++_oving/INFT2503-Cpp/oving2/build/CMakeFiles/rebuild_cache.dir

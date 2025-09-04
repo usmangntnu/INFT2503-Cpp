@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra CMakeFiles/oppgave1a.dir/oppgave1a.cpp.o -o oppgave1a 
