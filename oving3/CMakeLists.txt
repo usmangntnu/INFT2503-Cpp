@@ -10,3 +10,7 @@ add_executable(oving3
     main.cpp
     commodity.cpp
 )
+
+add_executable(oppgave4
+    oppgave4.cpp
+)
