@@ -14,14 +14,14 @@ public:
   Gtk::Label label;
 
   NameWindow() : box(Gtk::ORIENTATION_VERTICAL) {
-    // Sett vindustittel
+    // Vindustittel
     set_title("Navnesammenslåer");
 
-    // Sett plassholdere for tekstfeltene
+    // Plassholdere for tekstfeltene
     entry_first.set_placeholder_text("Skriv inn fornavn");
     entry_last.set_placeholder_text("Skriv inn etternavn");
 
-    // Sett knappetekst
+    // Knappetekst
     button.set_label("Slå sammen navn");
     button.set_sensitive(false); // starter som grået ut
 
