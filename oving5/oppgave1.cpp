@@ -48,7 +48,20 @@ public:
   };
 
   class Knight : public Piece {
-    // missing implementations
+  public:
+    Knight(Color color) : Piece(color) {}
+
+    std::string type() const override {
+      return color_string() + " knight";
+    }
+
+    virtual bool valid_move(int from_x, int from_y, int to_x, int to_y) const override {
+      int dx = abs(to_x - from_x);
+      int dy = abs(to_y - from_y);
+
+      // Kongen kan flytte ett steg i hvilken som helst retning
+      return (dx == 2 && dy == 1) || (dx == 1 && dy == 2);
+    }
   };
 
   ChessBoard() {
