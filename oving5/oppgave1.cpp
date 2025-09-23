@@ -28,6 +28,8 @@ public:
 
     /// Returns true if the given chess piece move is valid
     virtual bool valid_move(int from_x, int from_y, int to_x, int to_y) const = 0;
+
+    virtual char symbol() const = 0;
   };
 
   class King : public Piece {
@@ -45,6 +47,10 @@ public:
       // Kongen kan flytte ett steg i hvilken som helst retning
       return (dx <= 1 && dy <= 1 && (dx != 0 || dy != 0));
     }
+
+    char symbol() const override {
+      return (color == Color::WHITE) ? 'K' : 'k';
+    }
   };
 
   class Knight : public Piece {
@@ -61,6 +67,10 @@ public:
 
       // Kongen kan flytte ett steg i hvilken som helst retning
       return (dx == 2 && dy == 1) || (dx == 1 && dy == 2);
+    }
+
+    char symbol() const override {
+      return (color == Color::WHITE) ? 'N' : 'n';
     }
   };
 
