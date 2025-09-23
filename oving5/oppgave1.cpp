@@ -29,6 +29,7 @@ public:
     /// Returns true if the given chess piece move is valid
     virtual bool valid_move(int from_x, int from_y, int to_x, int to_y) const = 0;
 
+    // SYmbol for printing the board
     virtual char symbol() const = 0;
   };
 
@@ -118,6 +119,20 @@ public:
       cout << "no piece at " << from << endl;
       return false;
     }
+  }
+
+  void print_board() const {
+    for (int y = 7; y >= 0; --y) {
+      cout << (y + 1) << " ";
+      for (int x = 0; x < 8; ++x) {
+        if (squares[x][y])
+          cout << squares[x][y]->symbol() << " ";
+        else
+          cout << ". ";
+      }
+      cout << endl;
+    }
+    cout << " a b c d e f g h" << endl;
   }
 };
 
