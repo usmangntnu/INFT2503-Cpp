@@ -147,6 +147,9 @@ int main() {
   board.squares[1][7] = make_unique<ChessBoard::Knight>(ChessBoard::Color::BLACK);
   board.squares[6][7] = make_unique<ChessBoard::Knight>(ChessBoard::Color::BLACK);
 
+  cout << "Start board:" << endl;
+  board.print_board();
+
   cout << "Invalid moves:" << endl;
   board.move_piece("e3", "e2");
   board.move_piece("e1", "e3");
@@ -155,12 +158,29 @@ int main() {
 
   cout << "A simulated game:" << endl;
   board.move_piece("e1", "e2");
+  board.print_board();
+
   board.move_piece("g8", "h6");
+  board.print_board();
+
   board.move_piece("b1", "c3");
+  board.print_board();
+
   board.move_piece("h6", "g8");
+  board.print_board();
+
   board.move_piece("c3", "d5");
+  board.print_board();
+
   board.move_piece("g8", "h6");
+  board.print_board();
+
   board.move_piece("d5", "f6");
+  board.print_board();
+
   board.move_piece("h6", "g8");
+  board.print_board();
+
   board.move_piece("f6", "e8");
+  board.print_board();
 }
