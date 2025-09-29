@@ -104,92 +104,28 @@ public:
     auto &piece_from = squares[from_x][from_y];
     if (piece_from) {
       if (piece_from->valid_move(from_x, from_y, to_x, to_y)) {
-        if (on_piece_move)
-          on_piece_move(from, to, *piece_from);
+        if (on_piece_move) on_piece_move(from, to, *piece_from);
 
         auto &piece_to = squares[to_x][to_y];
         if (piece_to) {
           if (piece_from->color != piece_to->color) {
-            if (on_piece_removed)
-              on_piece_removed(to, *piece_to);
+            if (on_piece_removed) on_piece_removed(to, *piece_to);
           } else {
-            if (on_invalid_move)
-              on_invalid_move(from + " -> " + to);
+            if (on_invalid_move) on_invalid_move(from + " -> " + to);
             return false;
           }
         }
-        piece_to = move(piece_from);
+        piece_to = std::move(piece_from);
+
+        if (after_piece_move) after_piece_move();
         return true;
       } else {
-        cout << "can not move " << piece_from->type() << " from " << from << " to " << to << endl;
+        if (on_invalid_move) on_invalid_move(from + " -> " + to);
         return false;
       }
     } else {
-      cout << "no piece at " << from << endl;
+      if (on_no_piece) on_no_piece(from);
       return false;
     }
   }
-
-  void print_board() const {
-    for (int y = 7; y >= 0; --y) {
-      cout << (y + 1) << " ";
-      for (int x = 0; x < 8; ++x) {
-        if (squares[x][y])
-          cout << squares[x][y]->symbol() << " ";
-        else
-          cout << ". ";
-      }
-      cout << endl;
-    }
-    cout << "  a b c d e f g h" << endl;
-  }
 };
-
-int main() {
-  ChessBoard board;
-
-  board.squares[4][0] = make_unique<ChessBoard::King>(ChessBoard::Color::WHITE);
-  board.squares[1][0] = make_unique<ChessBoard::Knight>(ChessBoard::Color::WHITE);
-  board.squares[6][0] = make_unique<ChessBoard::Knight>(ChessBoard::Color::WHITE);
-
-  board.squares[4][7] = make_unique<ChessBoard::King>(ChessBoard::Color::BLACK);
-  board.squares[1][7] = make_unique<ChessBoard::Knight>(ChessBoard::Color::BLACK);
-  board.squares[6][7] = make_unique<ChessBoard::Knight>(ChessBoard::Color::BLACK);
-
-  cout << "Start board:" << endl;
-  board.print_board();
-
-  cout << "Invalid moves:" << endl;
-  board.move_piece("e3", "e2");
-  board.move_piece("e1", "e3");
-  board.move_piece("b1", "b2");
-  cout << endl;
-
-  cout << "A simulated game:" << endl;
-  board.move_piece("e1", "e2");
-  board.print_board();
-
-  board.move_piece("g8", "h6");
-  board.print_board();
-
-  board.move_piece("b1", "c3");
-  board.print_board();
-
-  board.move_piece("h6", "g8");
-  board.print_board();
-
-  board.move_piece("c3", "d5");
-  board.print_board();
-
-  board.move_piece("g8", "h6");
-  board.print_board();
-
-  board.move_piece("d5", "f6");
-  board.print_board();
-
-  board.move_piece("h6", "g8");
-  board.print_board();
-
-  board.move_piece("f6", "e8");
-  board.print_board();
-}
