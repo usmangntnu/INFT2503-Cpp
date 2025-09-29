@@ -1,3 +1,4 @@
+#include "ChessBoardPrint.cpp"
 #include "functional"
 #include <iostream>
 #include <memory>
@@ -104,28 +105,51 @@ public:
     auto &piece_from = squares[from_x][from_y];
     if (piece_from) {
       if (piece_from->valid_move(from_x, from_y, to_x, to_y)) {
-        if (on_piece_move) on_piece_move(from, to, *piece_from);
+        if (on_piece_move)
+          on_piece_move(from, to, *piece_from);
 
         auto &piece_to = squares[to_x][to_y];
         if (piece_to) {
           if (piece_from->color != piece_to->color) {
-            if (on_piece_removed) on_piece_removed(to, *piece_to);
+            if (on_piece_removed)
+              on_piece_removed(to, *piece_to);
           } else {
-            if (on_invalid_move) on_invalid_move(from + " -> " + to);
+            if (on_invalid_move)
+              on_invalid_move(from + " -> " + to);
             return false;
           }
         }
         piece_to = std::move(piece_from);
 
-        if (after_piece_move) after_piece_move();
+        if (after_piece_move)
+          after_piece_move();
         return true;
       } else {
-        if (on_invalid_move) on_invalid_move(from + " -> " + to);
+        if (on_invalid_move)
+          on_invalid_move(from + " -> " + to);
         return false;
       }
     } else {
-      if (on_no_piece) on_no_piece(from);
+      if (on_no_piece)
+        on_no_piece(from);
       return false;
     }
   }
 };
+
+int main() {
+  ChessBoard board;
+  ChessBoardPrint print(board);
+
+  board.squares[4][0] = make_unique<ChessBoard::King>(ChessBoard::Color::WHITE);
+  board.squares[1][0] = make_unique<ChessBoard::Knight>(ChessBoard::Color::WHITE);
+  board.squares[6][0] = make_unique<ChessBoard::Knight>(ChessBoard::Color::WHITE);
+
+  board.squares[4][7] = make_unique<ChessBoard::King>(ChessBoard::Color::BLACK);
+  board.squares[1][7] = make_unique<ChessBoard::Knight>(ChessBoard::Color::BLACK);
+  board.squares[6][7] = make_unique<ChessBoard::Knight>(ChessBoard::Color::BLACK);
+
+  board.move_piece("e1", "e2");
+  board.move_piece("g8", "h6");
+  board.move_piece("b1", "c3");
+}
