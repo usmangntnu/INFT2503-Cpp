@@ -1,3 +1,4 @@
+#include "functional"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -85,6 +86,13 @@ public:
   /// 8x8 squares occupied by 1 or 0 chess pieces
   vector<vector<unique_ptr<Piece>>> squares;
 
+  // Function objects (callbacks)
+  std::function<void(const std::string &, const std::string &, const Piece &)> on_piece_move;
+  std::function<void(const std::string &, const Piece &)> on_piece_removed;
+  std::function<void(const std::string &)> on_invalid_move;
+  std::function<void(const std::string &)> on_no_piece;
+  std::function<void()> after_piece_move;
+
   /// Move a chess piece if it is a valid move.
   /// Does not test for check or checkmate.
   bool move_piece(const std::string &from, const std::string &to) {
@@ -96,16 +104,17 @@ public:
     auto &piece_from = squares[from_x][from_y];
     if (piece_from) {
       if (piece_from->valid_move(from_x, from_y, to_x, to_y)) {
-        cout << piece_from->type() << " is moving from " << from << " to " << to << endl;
+        if (on_piece_move)
+          on_piece_move(from, to, *piece_from);
+
         auto &piece_to = squares[to_x][to_y];
         if (piece_to) {
           if (piece_from->color != piece_to->color) {
-            cout << piece_to->type() << " is being removed from " << to << endl;
-            if (auto king = dynamic_cast<King *>(piece_to.get()))
-              cout << king->color_string() << " lost the game" << endl;
+            if (on_piece_removed)
+              on_piece_removed(to, *piece_to);
           } else {
-            // piece in the from square has the same color as the piece in the to square
-            cout << "can not move " << piece_from->type() << " from " << from << " to " << to << endl;
+            if (on_invalid_move)
+              on_invalid_move(from + " -> " + to);
             return false;
           }
         }
