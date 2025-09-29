@@ -1,3 +1,4 @@
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -84,6 +85,13 @@ public:
 
   /// 8x8 squares occupied by 1 or 0 chess pieces
   vector<vector<unique_ptr<Piece>>> squares;
+
+  // Function objects (callbacks)
+  std::function<void(const std::string &, const std::string &, const Piece &)> on_piece_move;
+  std::function<void(const std::string &, const Piece &)> on_piece_removed;
+  std::function<void(const std::string &)> on_invalid_move;
+  std::function<void(const std::string &)> on_no_piece;
+  std::function<void()> after_piece_move;
 
   /// Move a chess piece if it is a valid move.
   /// Does not test for check or checkmate.
